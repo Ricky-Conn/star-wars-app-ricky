@@ -13,9 +13,16 @@ class StarWarsAPI extends RESTDataSource {
       return [results.results];
     }
   
-    async getAPage(page) {
+    async getPage(page) {
       const result = await this.get('people', {
         page
+      });
+      return result.results;
+    }
+  
+    async findPerson(search) {
+      const result = await this.get('people', {
+        search
       });
       return result.results;
     }
@@ -34,14 +41,19 @@ const typeDefs = gql`
   
   type Query {
     people(pageNum: Int!): [Person]
+    search(name: String!): [Person]
   }
 `;
 
 const resolvers = {
     Query: {
       people: async (root, { pageNum }, { dataSources }) => {
-          const people = await dataSources.starWarsAPI.getAPage(pageNum);
+          const people = await dataSources.starWarsAPI.getPage(pageNum);
           return people
+      },
+      search: async (root, { name }, { dataSources }) => {
+        const people = await dataSources.starWarsAPI.findPerson(name);
+        return people
       }
     },
   };
