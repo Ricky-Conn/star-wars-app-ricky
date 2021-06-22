@@ -2,6 +2,7 @@ var express = require('express');
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 const { ApolloServer, gql } = require('apollo-server');
+import { StarWarsAPI } from './datasource';
  
 
 var schema = buildSchema(`
@@ -52,6 +53,9 @@ app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
+  dataSources: () => ({
+    StarWarsAPI: new StarWarsAPI()
+  })
 }));
 
 app.listen(4000);
