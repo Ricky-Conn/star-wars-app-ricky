@@ -10,16 +10,14 @@ class StarWarsAPI extends RESTDataSource {
   
     async getAllPeople() {
       const results = await this.get('people');
-    //   console.log(results.results)
       return [results.results];
     }
   
-    async getAPage(pageNum) {
-      const result = await this.get('page', {
-        pageNum
+    async getAPage(page) {
+      const result = await this.get('people', {
+        page
       });
-  
-      return result[0];
+      return result.results;
     }
   };
 
@@ -28,8 +26,8 @@ const { ApolloServer, gql } = require('apollo-server');
 const typeDefs = gql`
   type Person {
     name: String
-    height: Float
-    mass: Float
+    height: String
+    mass: String
     gender: String
     homeworld: String
   }
@@ -42,10 +40,8 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
       people: async (root, { pageNum }, { dataSources }) => {
-          const people = await dataSources.starWarsAPI.getAllPeople()
-          console.log(pageNum)
-          console.log(people[0])
-          return people[0]
+          const people = await dataSources.starWarsAPI.getAPage(pageNum);
+          return people
       }
     },
   };
