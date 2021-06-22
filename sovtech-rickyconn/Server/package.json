@@ -2,7 +2,7 @@
   "name": "Server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +14,8 @@
     "apollo-server": "^2.25.1",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
-    "graphql": "^15.5.1"
-  }
+    "graphql": "^15.5.1",
+    "typescript": "^4.3.4"
+  },
+  "type": "module"
 }
