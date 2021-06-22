@@ -1,19 +1,34 @@
+var express = require('express');
+var { graphqlHTTP } = require('express-graphql');
+var { buildSchema } = require('graphql');
 const { ApolloServer, gql } = require('apollo-server');
+ 
 
-const typeDefs = gql`
-  type Person {
+var schema = buildSchema(`
+    type Person {
     name: String
     height: Float
     mass: Float
     gender: String
     homeworld: String
-  }
+    }
 
-
-  type Query {
-    people: [Person]
-  }
-`;
+    type Query {
+        getPerson(personNum: Int!): [Person]
+    }
+`);
+ 
+var root = {
+    getPerson: ({personNum}) => {
+        if(personNum <= 1 && personNum >= 0)
+        {
+            return [people[personNum]];
+        }else
+        {
+            return people
+        }
+    }
+};
 
 const people = [
     {
@@ -31,17 +46,13 @@ const people = [
         homeworld: 'Mars',
     },
   ];
+ 
+var app = express();
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
+}));
 
-  const resolvers = {
-    Query: {
-      people: () => people,
-    },
-  };
-
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+app.listen(4000);
+console.log('Running a GraphQL API server at localhost:4000/graphql');
