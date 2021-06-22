@@ -1,6 +1,6 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+const { RESTDataSource } = require('apollo-datasource-rest');
 
-export class StarWarsAPI extends RESTDataSource {
+class StarWarsAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'https://swapi.dev/api/';

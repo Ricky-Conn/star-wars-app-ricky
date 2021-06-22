@@ -1,62 +1,63 @@
-var express = require('express');
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
-const { ApolloServer, gql } = require('apollo-server');
-import { StarWarsAPI } from './datasource';
- 
+// const {StarWarsAPIClass} = 
+require("./datasource.tsx");
+const { RESTDataSource } = require('apollo-datasource-rest');
 
-var schema = buildSchema(`
-    type Person {
+class StarWarsAPI extends RESTDataSource {
+    constructor() {
+      super();
+      this.baseURL = 'https://swapi.dev/api/';
+    }
+  
+    async getAllPeople() {
+      const results = await this.get('people');
+    //   console.log(results.results)
+      return [results.results];
+    }
+  
+    async getAPage(pageNum) {
+      const result = await this.get('page', {
+        pageNum
+      });
+  
+      return result[0];
+    }
+  };
+
+const starWarsAPI = new StarWarsAPI()
+const { ApolloServer, gql } = require('apollo-server');
+const typeDefs = gql`
+  type Person {
     name: String
     height: Float
     mass: Float
     gender: String
     homeworld: String
-    }
+  }
+  
+  type Query {
+    people(pageNum: Int!): [Person]
+  }
+`;
 
-    type Query {
-        getPerson(personNum: Int!): [Person]
-    }
-`);
- 
-var root = {
-    getPerson: ({personNum}) => {
-        if(personNum <= 1 && personNum >= 0)
-        {
-            return [people[personNum]];
-        }else
-        {
-            return people
-        }
-    }
-};
-
-const people = [
-    {
-      name: 'Ricky',
-      height: 123,
-      mass: 35,
-      gender: 'Male',
-      homeworld: 'Earth',
+const resolvers = {
+    Query: {
+      people: async (root, { pageNum }, { dataSources }) => {
+          const people = await dataSources.starWarsAPI.getAllPeople()
+          console.log(pageNum)
+          console.log(people[0])
+          return people[0]
+      }
     },
-    {
-        name: 'Elon',
-        height: 200,
-        mass: 180,
-        gender: 'N/A',
-        homeworld: 'Mars',
-    },
-  ];
- 
-var app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-  dataSources: () => ({
-    StarWarsAPI: new StarWarsAPI()
-  })
-}));
-
-app.listen(4000);
-console.log('Running a GraphQL API server at localhost:4000/graphql');
+  };
+  
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    dataSources: () => ({
+      starWarsAPI: new StarWarsAPI()
+    })
+  });
+  
+  server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`)
+  });
