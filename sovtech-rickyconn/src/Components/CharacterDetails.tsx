@@ -3,7 +3,7 @@ import './App.css';
 
 function CharacterDetails() {
   return (
-    <div className="App">
+    <div>
       <h1>Character Details</h1>
     </div>
   );

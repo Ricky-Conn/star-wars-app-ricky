@@ -3,7 +3,7 @@ import './App.css';
 
 function Page() {
   return (
-    <div className="App">
+    <div>
       <h1>Star Wars Characters</h1>
     </div>
   );

@@ -3,7 +3,7 @@ import './App.css';
 
 function CharacterSummary() {
   return (
-    <div className="App">
+    <div>
       <h1>Character Summary</h1>
     </div>
   );

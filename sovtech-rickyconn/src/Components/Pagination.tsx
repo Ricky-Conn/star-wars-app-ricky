@@ -3,7 +3,7 @@ import './App.css';
 
 function Pagination() {
   return (
-    <div className="App">
+    <div>
       <h1>Pagination</h1>
     </div>
   );
