@@ -9,7 +9,7 @@ function Page() {
 
   document.head.appendChild(
     document.createElement('style')
-  ).textContent = vars.personSummary
+  ).textContent = vars.cardTemplate + vars.personContainer + vars.personSummary
 
   useEffect(() =>{
     fetchPeople();
@@ -22,11 +22,11 @@ function Page() {
   }
 
   return (
-    <div>
+    <div className="container">
       {
         people.map(person => {
           i++;
-          return <div className="person-summary" key={i}>{person.name}</div>
+          return <div className="summary-card" key={i}>{person.name}</div>
         })
       }
     </div>
