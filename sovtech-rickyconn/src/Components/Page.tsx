@@ -4,6 +4,18 @@ function Page() {
 
   const [people, setPeople] = useState<any[]>([])
   var i:number = 0;
+  
+  const color = 'red'
+
+  const div = `
+    .person-summary{
+        color: ${color}
+    }
+  `
+
+  document.head.appendChild(
+    document.createElement('style')
+  ).textContent = div
 
   useEffect(() =>{
     fetchPeople();
@@ -20,7 +32,7 @@ function Page() {
       {
         people.map(person => {
           i++;
-          return <div className="summary" key={i}>{person.name}</div>
+          return <div className="person-summary" key={i}>{person.name}</div>
         })
       }
     </div>
