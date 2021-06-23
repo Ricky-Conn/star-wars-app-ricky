@@ -1,5 +1,3 @@
-// const {StarWarsAPIClass} = 
-require("./datasource.tsx");
 const { RESTDataSource } = require('apollo-datasource-rest');
 
 class StarWarsAPI extends RESTDataSource {
