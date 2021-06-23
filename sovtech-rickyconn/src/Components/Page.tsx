@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 function Page() {
 
   const [people, setPeople] = useState<any[]>([])
+  var i:number = 0;
 
   useEffect(() =>{
     fetchPeople();
@@ -16,10 +17,10 @@ function Page() {
 
   return (
     <div>
-      <h1>Test</h1>
       {
         people.map(person => {
-          <h2>{person.name}</h2>
+          i++;
+          return <div className="summary" key={i}>{person.name}</div>
         })
       }
     </div>
