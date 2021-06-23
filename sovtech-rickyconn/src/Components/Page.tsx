@@ -1,21 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import * as vars from "./styles"
+
 
 function Page() {
 
   const [people, setPeople] = useState<any[]>([])
   var i:number = 0;
-  
-  const color = 'red'
-
-  const div = `
-    .person-summary{
-        color: ${color}
-    }
-  `
 
   document.head.appendChild(
     document.createElement('style')
-  ).textContent = div
+  ).textContent = vars.personSummary
 
   useEffect(() =>{
     fetchPeople();
