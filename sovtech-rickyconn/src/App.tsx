@@ -4,6 +4,7 @@ import Page from "./Components/Page"
 import CharacterSummary from "./Components/CharacterSummary"
 import Pagination from "./Components/Pagination"
 import CharacterDetails from "./Components/CharacterDetails"
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
   return (
