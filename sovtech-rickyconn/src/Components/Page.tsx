@@ -1,15 +1,11 @@
-import React, {useState, useEffect, CSSProperties, Component} from 'react';
+import React, {CSSProperties, Component} from 'react';
 import { connect } from 'react-redux';
+import { setPeople } from '../redux/peopleSlice';
 import store from '../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
 
 var i:number = 0;
 var styles:CSSProperties = {}
 var people = [{name:"fred"}]
-
-// useSelector(state => state.people.value);
-// const dispatch = useDispatch();
-// let setPeople = (peopleData) => dispatch(setPeople(peopleData))
 
 const fetchPeople = async () => {
   const data = await fetch('http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A')
@@ -39,11 +35,7 @@ function setSummary(el)
   el.style.opacity = "1"
 }
 
-interface PropInt {
-  setPeople?: any
-}
-
-class Page extends Component<PropInt>{
+class Page extends Component{
   mouseEnterStyles=event=>{
     console.log(event.target)
   }
