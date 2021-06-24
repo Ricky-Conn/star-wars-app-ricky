@@ -25,26 +25,15 @@ export interface StylesDictionary{
   [Key: string]: CSSProperties;
 }
 
-const styles:StylesDictionary  = {
+export const styles:StylesDictionary  = {
   startOpacity:{
-      display:'flex',
-      justifyContent:'center',  
+    opacity: 0.01 
   },
   endOpacity:{
-      display:'flex',
-      justifyContent:'center',
-      alignItems:'center',
+    opacity: 1,
+    transition: "opacity 500ms ease-in " 
       
   }
-}
-
-export const startOpacity:CSSProperties = {
-  opacity: 0.01
-}
-
-export const endOpacity:CSSProperties =  {
-    opacity: 1
-    transition: opacity 500ms ease-in  
 }
 
 export const cardTemplate = `
