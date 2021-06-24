@@ -1,3 +1,5 @@
+import { CSSProperties } from "react"
+
 export const color = 'blue'
 export const imageUrl = 'http://images-assets.nasa.gov/image/PIA03653/PIA03653~orig.jpg'
 
@@ -19,6 +21,31 @@ export const personSummary = `
     background-size: cover;
   }
 `
+export interface StylesDictionary{
+  [Key: string]: CSSProperties;
+}
+
+const styles:StylesDictionary  = {
+  startOpacity:{
+      display:'flex',
+      justifyContent:'center',  
+  },
+  endOpacity:{
+      display:'flex',
+      justifyContent:'center',
+      alignItems:'center',
+      
+  }
+}
+
+export const startOpacity:CSSProperties = {
+  opacity: 0.01
+}
+
+export const endOpacity:CSSProperties =  {
+    opacity: 1
+    transition: opacity 500ms ease-in  
+}
 
 export const cardTemplate = `
   .card{
