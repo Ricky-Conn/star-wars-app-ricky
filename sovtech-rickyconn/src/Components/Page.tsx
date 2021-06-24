@@ -11,6 +11,7 @@ const fetchPeople = async () => {
   const data = await fetch('http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A')
   const returnedData = await data.json()
   people = returnedData.data.people
+  store.dispatch(setPeople(people))
   var summaries = document.getElementsByClassName('summary-card')
   Array.from(summaries as HTMLCollectionOf<HTMLElement>).forEach(el => {
     setSummary(el)
