@@ -1,8 +1,15 @@
 import React, {useState, useEffect, CSSProperties, Component} from 'react';
+import { connect } from 'react-redux';
+import store from '../redux/store'
+import { useSelector, useDispatch } from 'react-redux'
 
 var i:number = 0;
 var styles:CSSProperties = {}
 var people = [{name:"fred"}]
+
+// useSelector(state => state.people.value);
+// const dispatch = useDispatch();
+// let setPeople = (peopleData) => dispatch(setPeople(peopleData))
 
 const fetchPeople = async () => {
   const data = await fetch('http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A')
@@ -32,8 +39,11 @@ function setSummary(el)
   el.style.opacity = "1"
 }
 
-export default class Page extends Component{
+interface PropInt {
+  setPeople?: any
+}
 
+class Page extends Component<PropInt>{
   mouseEnterStyles=event=>{
     console.log(event.target)
   }
@@ -58,3 +68,9 @@ export default class Page extends Component{
     
   state = { people: [{name:"fred"}]}
 }
+
+function mapStateToProps(state) {
+  return { people: state.people.value };
+} 
+
+export default connect(mapStateToProps)(Page);
