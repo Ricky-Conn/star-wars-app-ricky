@@ -2,7 +2,7 @@ import React, {useState, useEffect, CSSProperties, Component} from 'react';
 
 var i:number = 0;
 var styles:CSSProperties = {}
-var people = [{name:""}]
+var people = [{name:"fred"}]
 
 const fetchPeople = async () => {
   const data = await fetch('http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A')
@@ -13,6 +13,8 @@ const fetchPeople = async () => {
     setSummary(el)
   })
 }
+
+fetchPeople()
 
 function setSummary(el)
 {
@@ -41,7 +43,7 @@ export default class Page extends Component{
     return(
       <div className="container">
         {
-            peeps.map(person => {
+            this.state.people.map(person => {
               i++;
               return <div style={styles} className="summary-card" onMouseEnter={this.mouseEnterStyles.bind(this)} key={i}>{person.name}</div>
             })
@@ -49,4 +51,10 @@ export default class Page extends Component{
       </div>
     )
   }
+
+  constructor(props) {
+    super(props);
+  }
+    
+  state = { people: [{name:"fred"}]}
 }
