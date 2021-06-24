@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Page from "./Components/Page"
 import CharacterSummary from "./Components/CharacterSummary"
@@ -7,6 +7,11 @@ import CharacterDetails from "./Components/CharacterDetails"
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
+
+  useEffect(() =>{
+    document.body.classList.add('background-color');
+  },[])
+
   return (
     <Router>
       <div className="App">
