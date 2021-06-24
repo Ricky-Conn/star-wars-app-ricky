@@ -46,7 +46,7 @@ class Page extends Component{
     return(
       <div className="container">
         {
-            this.state.people.map(person => {
+            store.getState().people.value.map(person => {
               i++;
               return <div style={styles} className="summary-card" onMouseEnter={this.mouseEnterStyles.bind(this)} key={i}>{person.name}</div>
             })
