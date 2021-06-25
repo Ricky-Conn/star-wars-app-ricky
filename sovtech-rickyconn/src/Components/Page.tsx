@@ -1,9 +1,9 @@
-import React, {CSSProperties, Component} from 'react';
+import React, {CSSProperties, Component, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { setPeople } from '../redux/peopleSlice';
 import store from '../redux/store'
 
-const url:string = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A'
+var url:string = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page.value+'%29%7Bname%7D%7D%0A'
 var i:number = 0;
 var people = [{name:null}]
 var defaultHeight = "6.2vh"
@@ -51,6 +51,17 @@ class Page extends Component{
     event.target.style.boxShadow = null
   }
 
+  shouldComponentUpdate=()=>{
+    console.log("test")
+    let beforeUrl = url
+    if(!store.getState().page.value)
+    {
+      url = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page+'%29%7Bname%7D%7D%0A'
+      fetchPeople()
+    }
+    return beforeUrl !== url || store.getState().page.value !== null;
+  }
+
   render ()
   {
     return(
@@ -75,11 +86,13 @@ class Page extends Component{
     super(props);
   }
     
-  state = { people: [{name:"fred"}]}
+  state = { people: [{name:"fred"}],
+            page: 0}
 }
 
 function mapStateToProps(state) {
-  return { people: state.people.value };
+  return { people: state.people.value,
+            page: state.page.value };
 } 
 
 export default connect(mapStateToProps)(Page);
