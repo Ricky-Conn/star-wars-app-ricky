@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { setPeople } from '../redux/peopleSlice';
 import store from '../redux/store'
 
+const url:string = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A'
 var i:number = 0;
-var styles:CSSProperties = {}
 var people = [{name:null}]
 var defaultHeight = "6.2vh"
 var hoverHeight = "7vh"
 
 const fetchPeople = async () => {
-  const data = await fetch('http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A1%29%7Bname%7D%7D%0A')
+  const data = await fetch(url)
   const returnedData = await data.json()
   people = returnedData.data.people
   store.dispatch(setPeople(people))
@@ -59,7 +59,6 @@ class Page extends Component{
             store.getState().people.value.map(person => {
               i++;
               return <div 
-                        style={styles} 
                         className="summary-card" 
                         onMouseEnter={this.mouseEnterStyles.bind(this)} 
                         onMouseLeave={this.mouseLeaveStyles.bind(this)}
