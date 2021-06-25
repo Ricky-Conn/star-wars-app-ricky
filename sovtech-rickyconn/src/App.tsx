@@ -17,9 +17,12 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/" exact component={Page}/>
-          <Route path="/Page" exact component={Page}/>
-          <CharacterSummary/>
-          <Pagination/>
+          <Route path="/Page" render={() => 
+                                <div>
+                                  <Page/> 
+                                  <Pagination/>
+                                </div>
+                                  }/>
           <Route path="/Character" exact component={CharacterDetails}/>
         </Switch>
       </div>
