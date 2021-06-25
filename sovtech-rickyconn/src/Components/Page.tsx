@@ -15,6 +15,13 @@ const fetchPeople = async () => {
   people = returnedData.data.people
   store.dispatch(setPeople(people))
   var summaries = document.getElementsByClassName('summary-card')
+  var summaryContainer = document.getElementById('summary-container')
+  if(summaryContainer)
+  {
+    summaryContainer.style.width = "80%"
+    summaryContainer.style.textAlign = "-webkit-center"
+    summaryContainer.style.color = "white"
+  }
   Array.from(summaries as HTMLCollectionOf<HTMLElement>).forEach(el => {
     setSummary(el)
   })
@@ -29,12 +36,7 @@ function setSummary(el)
   el.style.width = "100%"
   el.style.height = defaultHeight
   el.style.paddingTop = "10px"
-  el.style.textAlign = "-webkit-center"
-  el.style.color = "white"
-  el.style.verticalAlign = "middle"
-  el.style.background = "linear-gradient(to right, #000000, rgb(160 117 255))"
-  el.style.backgroundRepeat = "no-repeat"
-  el.style.backgroundSize = "cover"
+  el.style.background = "linear-gradient(to right, rgb(166, 161, 183), rgb(160, 117, 255)) 0% 0%"
   el.style.opacity = "1"
 }
 
@@ -52,7 +54,7 @@ class Page extends Component{
   render ()
   {
     return(
-      <div className="container">
+      <div id="summary-container">
         {
             store.getState().people.value.map(person => {
               i++;
