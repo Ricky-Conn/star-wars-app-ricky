@@ -14,7 +14,7 @@ export const pageSlice = createSlice({
     },
     setPage(state, action)
     {
-      return action.payload
+      return {value: action.payload}
     }
   }
 })
