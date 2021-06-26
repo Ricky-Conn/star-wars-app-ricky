@@ -6,32 +6,36 @@ import store from '../redux/store'
 var url:string = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page.value+'%29%7Bname%7D%7D%0A'
 var i:number = 0;
 var people = [{name:null}]
-var defaultHeight = "6.2vh"
+var defaultHeight = "5.7vh"
 var hoverHeight = "7vh"
+var page = 0
 
 const fetchPeople = async () => {
+  const peopleBefore = people
+  url = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page.value+'%29%7Bname%7D%7D%0A'
   const data = await fetch(url)
   const returnedData = await data.json()
   people = returnedData.data.people
-  store.dispatch(setPeople(people))
-  var summaries = document.getElementsByClassName('summary-card')
-  var summaryContainer = document.getElementById('summary-container')
-  if(summaryContainer)
+  if(JSON.stringify(people) !== JSON.stringify(peopleBefore))
   {
-    summaryContainer.style.width = "80%"
-    summaryContainer.style.textAlign = "-webkit-center"
-    summaryContainer.style.color = "white"
+    store.dispatch(setPeople(people))
+    var summaryContainer = document.getElementById('summary-container')
+    if(summaryContainer)
+    {
+      summaryContainer.style.textAlign = "-webkit-center"
+      summaryContainer.style.color = "white"
+      if(summaryContainer.style.height === "")
+        summaryContainer.style.height = (summaryContainer.offsetHeight*1.02)+"px"
+    }
   }
-  Array.from(summaries as HTMLCollectionOf<HTMLElement>).forEach(el => {
-    setSummary(el)
-  })
+  
 }
 
 fetchPeople()
 
 function setSummary(el)
 {
-  el.style.margin = "0.5vh"
+  el.style.margin = "3px"
   el.style.borderRadius = "0"
   el.style.width = "100%"
   el.style.height = defaultHeight
@@ -51,15 +55,17 @@ class Page extends Component{
     event.target.style.boxShadow = null
   }
 
-  shouldComponentUpdate=()=>{
-    console.log("test")
-    let beforeUrl = url
-    if(!store.getState().page.value)
-    {
-      url = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page+'%29%7Bname%7D%7D%0A'
-      fetchPeople()
-    }
-    return beforeUrl !== url || store.getState().page.value !== null;
+  clicked=event=>{
+    console.log(event)
+  }
+
+  componentDidUpdate=event=>
+  {
+    fetchPeople()
+    var summaries = document.getElementsByClassName('summary-card')
+    Array.from(summaries as HTMLCollectionOf<HTMLElement>).forEach(el => {
+      setSummary(el)
+    })
   }
 
   render ()
@@ -73,6 +79,7 @@ class Page extends Component{
                         className="summary-card" 
                         onMouseEnter={this.mouseEnterStyles.bind(this)} 
                         onMouseLeave={this.mouseLeaveStyles.bind(this)}
+                        onClick={this.clicked.bind(this)}
                         key={i}>
                           {person.name}
                       </div>
@@ -91,8 +98,10 @@ class Page extends Component{
 }
 
 function mapStateToProps(state) {
-  return { people: state.people.value,
-            page: state.page.value };
+  return { 
+            people: state.people.value,
+            page: state.page.value 
+          };
 } 
 
 export default connect(mapStateToProps)(Page);
