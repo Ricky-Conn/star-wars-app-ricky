@@ -10,15 +10,16 @@ function App() {
 
   useEffect(() =>{
     document.body.classList.add('background-color');
+    document.body.style.textAlign = "-webkit-center"
   },[])
 
   return (
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/" exact component={Page}/>
-          <Route path="/Page" render={() => 
+          <Route path={["/", "/Page"]} exact render={() => 
                                 <div>
+                                  <h1 style={{color: 'white', margin: '1.8%'} as React.CSSProperties}>Characters</h1>
                                   <Page/> 
                                   <Pagination/>
                                 </div>
