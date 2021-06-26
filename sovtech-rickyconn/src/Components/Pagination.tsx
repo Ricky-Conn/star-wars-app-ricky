@@ -17,6 +17,13 @@ function addPages(numPages:number)
 
 addPages(numPages)
 
+function selected(element)
+{
+  element.style.background = "white"
+  element.style.color = "black"
+  element.style.fontWeight = "bold"
+}
+
 class Pagination extends Component{
   mouseEnterStyles=event=>{
   }
@@ -26,6 +33,13 @@ class Pagination extends Component{
 
   clicked=event=>{
     store.dispatch(setPage(parseFloat(event.target.innerText)))
+    const pageSelectors = document.getElementsByClassName("page-selector")
+    Array.from(pageSelectors as HTMLCollectionOf<HTMLElement>).map(element => {
+      element.style.background = "rgb(160, 117, 255)";
+      element.style.color = "white";
+      element.style.fontWeight = "";
+    });
+    selected(event.target)
   }
 
   render ()
@@ -54,15 +68,17 @@ class Pagination extends Component{
   componentDidMount = () => {
     const pageContainer = document.getElementById("pageContainer")
     console.log(pageContainer)
-    if(pageContainer)
+    if(pageContainer && pageContainer.style.height === "")
     {
       pageContainer.style.height = "5vh"
       pageContainer.style.display = "flex"
+      pageContainer.style.justifyContent = "center"
     }
 
     const pages = document.getElementsByClassName("page-selector")
+    
     Array.from(pages as HTMLCollectionOf<HTMLElement>).forEach(page => {
-      page.style.background = "blue"
+      page.style.background = "rgb(160, 117, 255)"
       page.style.height = "100%"
       page.style.width = "3vw"
       page.style.margin = "1px"
