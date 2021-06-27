@@ -30,7 +30,7 @@ const fetchPerson = async () => {
       characterDetails.style.paddingBottom = "7vh"
     }
     const characterDetailsText = document.getElementsByClassName("character-detail")
-    if(person)
+    if(person && characterDetailsText[0])
     {
       characterDetailsText[0].innerHTML = "Name: "+person.name
       characterDetailsText[1].innerHTML = "Mass: "+person.mass
