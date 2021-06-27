@@ -46,6 +46,7 @@ function setSummary(el)
   elStyle.background = "linear-gradient(to right, rgb(166, 161, 183), rgb(160, 117, 255)) 0% 0%"
   elStyle.opacity = "1"
   elStyle.color = "white"
+  elStyle.textDecoration = "none"
 }
 
 class Page extends Component{
