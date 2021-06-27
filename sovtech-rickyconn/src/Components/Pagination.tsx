@@ -2,6 +2,7 @@ import React, {CSSProperties, Component} from 'react';
 import { connect } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import store from '../redux/store'
+import { Link } from 'react-router-dom'
 
 var pages: string[] = []
 const numPages: number = 9
@@ -57,7 +58,9 @@ class Pagination extends Component{
               {
                 i = 1
               }
-              return <div className="page-selector" key={i} onClick={this.clicked.bind(this)}>{i}</div>
+              return <Link to={`${i}`}>
+                        <div className="page-selector" key={i} onClick={this.clicked.bind(this)}>{i}</div>
+                      </Link>
             })
         }
       </div>
