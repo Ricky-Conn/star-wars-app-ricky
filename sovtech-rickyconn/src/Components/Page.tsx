@@ -1,7 +1,9 @@
 import React, {CSSProperties, Component, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { setPeople } from '../redux/peopleSlice';
+import { setPerson } from '../redux/selectedPersonSlice';
 import store from '../redux/store'
+import { Link } from 'react-router-dom'
 
 var url:string = 'http://localhost:4000/graphql?query=%7Bpeople%28pageNum%3A'+store.getState().page.value+'%29%7Bname%7D%7D%0A'
 var i:number = 0;
@@ -35,13 +37,15 @@ fetchPeople()
 
 function setSummary(el)
 {
-  el.style.margin = "3px"
-  el.style.borderRadius = "0"
-  el.style.width = "100%"
-  el.style.height = defaultHeight
-  el.style.paddingTop = "10px"
-  el.style.background = "linear-gradient(to right, rgb(166, 161, 183), rgb(160, 117, 255)) 0% 0%"
-  el.style.opacity = "1"
+  const elStyle = el.style
+  elStyle.margin = "3px"
+  elStyle.borderRadius = "0"
+  elStyle.width = "100%"
+  elStyle.height = defaultHeight
+  elStyle.paddingTop = "10px"
+  elStyle.background = "linear-gradient(to right, rgb(166, 161, 183), rgb(160, 117, 255)) 0% 0%"
+  elStyle.opacity = "1"
+  elStyle.color = "white"
 }
 
 class Page extends Component{
@@ -56,7 +60,7 @@ class Page extends Component{
   }
 
   clicked=event=>{
-    console.log(event)
+    store.dispatch(setPerson(event.target.innerText))
   }
 
   componentDidUpdate=event=>
@@ -75,14 +79,16 @@ class Page extends Component{
         {
             store.getState().people.value.map(person => {
               i++;
-              return <div 
-                        className="summary-card" 
-                        onMouseEnter={this.mouseEnterStyles.bind(this)} 
-                        onMouseLeave={this.mouseLeaveStyles.bind(this)}
-                        onClick={this.clicked.bind(this)}
-                        key={i}>
-                          {person.name}
-                      </div>
+              return <Link to={`/Character/${person.name}`}>
+                        <div 
+                          className="summary-card" 
+                          onMouseEnter={this.mouseEnterStyles.bind(this)} 
+                          onMouseLeave={this.mouseLeaveStyles.bind(this)}
+                          onClick={this.clicked.bind(this)}
+                          key={i}>
+                            {person.name}
+                        </div>
+                      </Link>
             })
         }
       </div>
