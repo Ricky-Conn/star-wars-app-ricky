@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { RouteComponentProps, useParams } from 'react-router';
+import { createLogicalOr } from 'typescript';
 import { setPerson } from '../redux/selectedPersonSlice';
 import store from '../redux/store';
 
@@ -63,15 +64,30 @@ interface person{
 
 class CharacterDetails extends Component<IMyProps & RouteComponentProps<IReactRouterParams>> {
 
-  componentDidUpdate=event=>
-  {
+  static getDerivedStateFromProps(nextProps, prevState){
+   if(nextProps?.selectedPerson !== prevState?.selectedPerson){
+      fetchPerson()
+      return { selectedPerson: nextProps.selectedPerson};
+   } 
+   else {
+      return null;
+   }
+ }
+ 
+ componentDidUpdate(prevProps, prevState) {
+   if(prevProps.selectedPerson !== store.getState().selectedPerson){
     if(store.getState().selectedPerson.value !== this.props.match.params.personName)
       store.dispatch(setPerson(this.props.match.params.personName))
-    fetchPerson()
-    const characterContainer = document.getElementById('character-container')
-    if(characterContainer)
-      characterContainer.style.color = "white"
-  }
+      fetchPerson()
+      const characterContainer = document.getElementById('character-container')
+      if(characterContainer)
+        characterContainer.style.color = "white"
+    }
+ }
+
+ state = { people: [{name:""}],
+           page: 0,
+           selectedPerson:""}
 
   render ()
   {
