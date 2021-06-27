@@ -26,11 +26,6 @@ function selected(element)
 }
 
 class Pagination extends Component{
-  mouseEnterStyles=event=>{
-  }
-
-  mouseLeaveStyles=event=>{
-  }
 
   clicked=event=>{
     if(store.getState().page.value !== parseFloat(event.target.innerText))
@@ -73,7 +68,6 @@ class Pagination extends Component{
     
   componentDidMount = () => {
     const pageContainer = document.getElementById("pageContainer")
-    console.log(pageContainer)
     if(pageContainer && pageContainer.style.height === "")
     {
       pageContainer.style.height = "5vh"
@@ -90,6 +84,13 @@ class Pagination extends Component{
       page.style.margin = "1px"
       page.style.color = "white"
     });
+    
+    var page
+    if(pageContainer && pageContainer.children)
+    {
+      page = pageContainer.children[store.getState().page.value-1].children[0]
+    }
+    selected(page)
   }
 
   state = { page: 0}
