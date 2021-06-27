@@ -32,14 +32,17 @@ class Pagination extends Component{
   }
 
   clicked=event=>{
-    store.dispatch(setPage(parseFloat(event.target.innerText)))
-    const pageSelectors = document.getElementsByClassName("page-selector")
-    Array.from(pageSelectors as HTMLCollectionOf<HTMLElement>).map(element => {
-      element.style.background = "rgb(160, 117, 255)";
-      element.style.color = "white";
-      element.style.fontWeight = "";
-    });
-    selected(event.target)
+    if(store.getState().page.value !== parseFloat(event.target.innerText))
+    {
+      store.dispatch(setPage(parseFloat(event.target.innerText)))
+      const pageSelectors = document.getElementsByClassName("page-selector")
+      Array.from(pageSelectors as HTMLCollectionOf<HTMLElement>).map(element => {
+        element.style.background = "rgb(160, 117, 255)";
+        element.style.color = "white";
+        element.style.fontWeight = "";
+      });
+      selected(event.target)
+    }
   }
 
   render ()
