@@ -30,6 +30,10 @@ const fetchPeople = async () => {
         summaryContainer.style.height = (summaryContainer.offsetHeight*1.02)+"px"
     }
   }
+  var summaries = document.getElementsByClassName('summary-card')
+  Array.from(summaries as HTMLCollectionOf<HTMLElement>).forEach(el => {
+    setSummary(el)
+  })
   
 }
 
@@ -50,6 +54,17 @@ function setSummary(el)
 }
 
 class Page extends Component{
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    fetchPeople()
+    if(nextProps?.selectedPerson !== prevState?.selectedPerson){
+       return { selectedPerson: nextProps.selectedPerson};
+    } 
+    else {
+       return null;
+    }
+  }
+
   mouseEnterStyles=event=>{
     event.target.style.height = hoverHeight
     event.target.style.boxShadow = "0px 0px 4px 2px rgba(255,255,255,0.49) inset"
