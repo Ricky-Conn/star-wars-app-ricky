@@ -17,7 +17,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route path={["/:pageNum", "/Page/:pageNum"]} exact render={() => 
+          <Route path={["/:pageNum?", "/Page/:pageNum?"]} exact render={() => 
                                 <div>
                                   <h1 style={{color: 'white', margin: '1.8%'} as React.CSSProperties}>Characters</h1>
                                   <Page/> 
