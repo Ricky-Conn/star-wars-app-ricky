@@ -27,7 +27,7 @@ const fetchPeople = async () => {
       summaryContainer.style.textAlign = "-webkit-center"
       summaryContainer.style.color = "white"
       if(summaryContainer.style.height === "")
-        summaryContainer.style.height = (summaryContainer.offsetHeight*1.02)+"px"
+        summaryContainer.style.height = ((summaryContainer.offsetHeight*1.02)/document.documentElement.scrollHeight)*100+"vh"
     }
   }
   var summaries = document.getElementsByClassName('summary-card')
