@@ -24,7 +24,7 @@ function App() {
                                   <Pagination/>
                                 </div>
                                   }/>
-          <Route path="/Character" exact component={CharacterDetails}/>
+          <Route path="/Character/:personName" component={CharacterDetails}/>
         </Switch>
       </div>
     </Router>
